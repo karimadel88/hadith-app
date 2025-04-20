@@ -30,7 +30,7 @@ const UserProfile = ({ user }: UserProfileProps) => {
             <span>Reading Progress</span>
             <span className="font-medium">{user.progress}%</span>
           </div>
-          <Progress value={user.progress} className="h-2 bg-emerald-100" indicatorClassName="bg-emerald-600" />
+          <Progress value={user.progress} className="h-2 bg-emerald-100" />
         </div>
       </CardContent>
     </Card>
