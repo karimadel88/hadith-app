@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { UserPlus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { mockRegister } from "@/utils/mockAuth";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner"; // Added Toaster import
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -23,7 +22,7 @@ const Register = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const user = mockRegister(email, password, name);
-    
+
     if (user) {
       toast.success("تم إنشاء الحساب بنجاح");
       navigate("/home");
@@ -34,9 +33,12 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex items-center justify-center px-4">
+      {/* Add the Toaster component with position prop */}
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-right text-emerald-800" dir="rtl">إنشاء حساب جديد</CardTitle>
+          <CardTitle className="text-right text-emerald-800" dir="rtl">
+            إنشاء حساب جديد
+          </CardTitle>
           <CardDescription className="text-right" dir="rtl">
             انضم إلينا وابدأ رحلة التعلم
           </CardDescription>
@@ -44,7 +46,9 @@ const Register = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-right block text-sm font-medium" dir="rtl">الاسم</label>
+              <label className="text-right block text-sm font-medium" dir="rtl">
+                الاسم
+              </label>
               <Input
                 type="text"
                 value={name}
@@ -56,7 +60,9 @@ const Register = () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-right block text-sm font-medium" dir="rtl">البريد الإلكتروني</label>
+              <label className="text-right block text-sm font-medium" dir="rtl">
+                البريد الإلكتروني
+              </label>
               <Input
                 type="email"
                 value={email}
@@ -68,7 +74,9 @@ const Register = () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-right block text-sm font-medium" dir="rtl">كلمة المرور</label>
+              <label className="text-right block text-sm font-medium" dir="rtl">
+                كلمة المرور
+              </label>
               <Input
                 type="password"
                 value={password}
@@ -79,7 +87,10 @@ const Register = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">
+            <Button
+              type="submit"
+              className="w-full bg-emerald-600 hover:bg-emerald-700"
+            >
               <UserPlus className="h-5 w-5 ml-2" />
               إنشاء حساب
             </Button>

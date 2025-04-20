@@ -1,4 +1,3 @@
-
 // Dummy data for the application
 // This will be replaced with API calls to your backend later
 
@@ -11,15 +10,6 @@ export interface User {
   joinedAt: string;
 }
 
-export interface Comment {
-  id: string;
-  userId: string;
-  hadithId: string;
-  text: string;
-  timestamp: string;
-  likes: number;
-}
-
 export interface Hadith {
   id: string;
   title: string;
@@ -28,7 +18,19 @@ export interface Hadith {
   narrator: string;
   chapter: string;
   book: string;
-  comments?: Comment[];
+  comments: Comment[];
+  grade?: string;
+  explanation?: string;
+  hints?: string[];
+}
+
+export interface Comment {
+  id: string;
+  userId: string;
+  hadithId: string;
+  text: string;
+  timestamp: string;
+  likes: number;
 }
 
 export interface ReadingProgress {
@@ -46,7 +48,7 @@ export const users: User[] = [
     avatar: "https://i.pravatar.cc/150?img=1",
     email: "ahmed@example.com",
     progress: 65,
-    joinedAt: "2023-09-15"
+    joinedAt: "2023-09-15",
   },
   {
     id: "2",
@@ -54,7 +56,7 @@ export const users: User[] = [
     avatar: "https://i.pravatar.cc/150?img=5",
     email: "fatima@example.com",
     progress: 42,
-    joinedAt: "2023-10-21"
+    joinedAt: "2023-10-21",
   },
   {
     id: "3",
@@ -62,126 +64,217 @@ export const users: User[] = [
     avatar: "https://i.pravatar.cc/150?img=8",
     email: "mohammad@example.com",
     progress: 78,
-    joinedAt: "2023-08-03"
-  }
-];
-
-// Expanded hadith collection
-export const hadiths: Hadith[] = [
-  {
-    id: "1",
-    title: "The Importance of Good Character",
-    arabic: "أَكْمَلُ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا",
-    translation: "The most complete of the believers in faith is the one with the best character.",
-    narrator: "Narrated by Abu Hurairah (رضي الله عنه)",
-    chapter: "Good Character",
-    book: "Sunan Abu Dawood",
-    comments: [
-      {
-        id: "c1",
-        userId: "2",
-        hadithId: "1",
-        text: "This hadith reminds us of the importance of good character in our daily interactions.",
-        timestamp: "2024-04-10T14:23:00Z",
-        likes: 5
-      },
-      {
-        id: "c2",
-        userId: "3",
-        hadithId: "1",
-        text: "I've been trying to embody this teaching in my workplace. It's challenging but rewarding.",
-        timestamp: "2024-04-11T09:45:00Z",
-        likes: 3
-      }
-    ]
+    joinedAt: "2023-08-03",
   },
-  {
-    id: "2",
-    title: "Kindness",
-    arabic: "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ",
-    translation: "The merciful ones will be shown mercy by the Most Merciful.",
-    narrator: "Narrated by Abdullah ibn Amr (رضي الله عنه)",
-    chapter: "Mercy",
-    book: "Jami at-Tirmidhi",
-    comments: [
-      {
-        id: "c3",
-        userId: "1",
-        hadithId: "2",
-        text: "This hadith always moves me deeply. Mercy is the foundation of human connection.",
-        timestamp: "2024-04-09T16:30:00Z",
-        likes: 7
-      }
-    ]
-  },
-  {
-    id: "3",
-    title: "Actions and Intentions",
-    arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
-    translation: "Actions are judged by intentions.",
-    narrator: "Narrated by Umar ibn Al-Khattab (رضي الله عنه)",
-    chapter: "Intentions",
-    book: "Sahih Bukhari",
-    comments: []
-  },
-  {
-    id: "4",
-    title: "Brotherhood",
-    arabic: "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
-    translation: "None of you truly believes until he loves for his brother what he loves for himself.",
-    narrator: "Narrated by Anas ibn Malik (رضي الله عنه)",
-    chapter: "Faith",
-    book: "Sahih Bukhari",
-    comments: []
-  },
-  {
-    id: "5",
-    title: "Seeking Knowledge",
-    arabic: "طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",
-    translation: "Seeking knowledge is an obligation upon every Muslim.",
-    narrator: "Narrated by Anas ibn Malik (رضي الله عنه)",
-    chapter: "Knowledge",
-    book: "Sunan Ibn Majah",
-    comments: []
-  }
 ];
 
 // Reading progress data
 export const readingProgress: ReadingProgress[] = [
-  { userId: "1", hadithId: "1", completed: true, dateRead: "2024-04-01T10:15:00Z" },
-  { userId: "1", hadithId: "2", completed: true, dateRead: "2024-04-05T14:30:00Z" },
-  { userId: "1", hadithId: "3", completed: true, dateRead: "2024-04-08T09:45:00Z" },
-  { userId: "2", hadithId: "1", completed: true, dateRead: "2024-04-02T16:20:00Z" },
-  { userId: "2", hadithId: "2", completed: true, dateRead: "2024-04-07T11:05:00Z" },
-  { userId: "3", hadithId: "1", completed: true, dateRead: "2024-04-03T08:50:00Z" },
-  { userId: "3", hadithId: "2", completed: true, dateRead: "2024-04-06T13:25:00Z" },
-  { userId: "3", hadithId: "3", completed: true, dateRead: "2024-04-10T15:40:00Z" },
-  { userId: "3", hadithId: "4", completed: true, dateRead: "2024-04-12T10:15:00Z" }
+  {
+    userId: "1",
+    hadithId: "1",
+    completed: true,
+    dateRead: "2024-04-01T10:15:00Z",
+  },
+  {
+    userId: "1",
+    hadithId: "2",
+    completed: true,
+    dateRead: "2024-04-05T14:30:00Z",
+  },
+  {
+    userId: "1",
+    hadithId: "3",
+    completed: true,
+    dateRead: "2024-04-08T09:45:00Z",
+  },
+  {
+    userId: "2",
+    hadithId: "1",
+    completed: true,
+    dateRead: "2024-04-02T16:20:00Z",
+  },
+  {
+    userId: "2",
+    hadithId: "2",
+    completed: true,
+    dateRead: "2024-04-07T11:05:00Z",
+  },
+  {
+    userId: "3",
+    hadithId: "1",
+    completed: true,
+    dateRead: "2024-04-03T08:50:00Z",
+  },
+  {
+    userId: "3",
+    hadithId: "2",
+    completed: true,
+    dateRead: "2024-04-06T13:25:00Z",
+  },
+  {
+    userId: "3",
+    hadithId: "3",
+    completed: true,
+    dateRead: "2024-04-10T15:40:00Z",
+  },
+  {
+    userId: "3",
+    hadithId: "4",
+    completed: true,
+    dateRead: "2024-04-12T10:15:00Z",
+  },
+];
+
+// Mock comments data
+export const comments: Comment[] = [
+  {
+    id: "1",
+    userId: "1",
+    hadithId: "1",
+    text: "This is a very inspiring hadith.",
+    timestamp: "2024-04-01T12:00:00Z",
+    likes: 10,
+  },
+  {
+    id: "2",
+    userId: "2",
+    hadithId: "1",
+    text: "I found this hadith very helpful.",
+    timestamp: "2024-04-02T14:00:00Z",
+    likes: 5,
+  },
+  {
+    id: "3",
+    userId: "3",
+    hadithId: "2",
+    text: "Great explanation of this hadith.",
+    timestamp: "2024-04-03T16:00:00Z",
+    likes: 8,
+  },
+  {
+    id: "4",
+    userId: "1",
+    hadithId: "3",
+    text: "This hadith is very profound.",
+    timestamp: "2024-04-04T18:00:00Z",
+    likes: 12,
+  },
+];
+
+// Dummy hadiths data
+export const hadiths: Hadith[] = [
+  {
+    id: "1",
+    title: "الحديث الاول",
+    arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ",
+    translation: "Actions are judged by intentions.",
+    narrator: "Umar ibn Al-Khattab",
+    chapter: "Faith",
+    book: "Sahih Bukhari",
+    comments: [],
+    grade: "Sahih",
+    explanation: "This hadith emphasizes the importance of intentions.",
+    hints: ["Intention", "Faith"],
+  },
+  {
+    id: "2",
+    title: "الحديث الثاني",
+    arabic: "الدِّينُ النَّصِيحَةُ",
+    translation: "Religion is sincerity.",
+    narrator: "Tamim Al-Dari",
+    chapter: "Faith",
+    book: "Sahih Muslim",
+    comments: [],
+    grade: "Sahih",
+    explanation: "This hadith highlights the value of sincerity in religion.",
+    hints: ["Sincerity", "Faith"],
+  },
+  // Add more hadiths as needed
 ];
 
 // Mock API functions (to be replaced with real API calls later)
-export const fetchHadiths = () => {
-  return Promise.resolve(hadiths);
+
+export const fetchHadiths = async (
+  categoryId: string = "1",
+  page: number = 1,
+  perPage: number = 5
+): Promise<Hadith[]> => {
+  try {
+    const apiUrl = `https://hadeethenc.com/api/v1/hadeeths/list/?language=ar&category_id=${categoryId}&page=${page}&per_page=${perPage}`;
+
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error("Failed to fetch hadiths");
+    }
+
+    const data = await response.json();
+
+    const hadiths = data.data.map((hadeeth: any) => ({
+      id: hadeeth.id,
+      title: hadeeth.title,
+      arabic: hadeeth.hadeeth,
+      translation: hadeeth.explanation || "", // Using explanation as translation
+      narrator: hadeeth.attribution,
+      chapter: `Category ${hadeeth.categories?.[0] || "Unknown"}`,
+      book: hadeeth.reference?.split("\n")?.[0] || "Unknown Book",
+      grade: hadeeth.grade,
+      explanation: hadeeth.explanation,
+      hints: hadeeth.hints,
+      comments: [], // Initialize with empty comments
+    }));
+
+    return hadiths;
+  } catch (error) {
+    console.error("Error fetching hadiths:", error);
+    return []; // Return empty array in case of error
+  }
 };
 
-export const fetchHadithById = (id: string) => {
-  const hadith = hadiths.find(h => h.id === id);
-  return Promise.resolve(hadith);
+// Additional function to fetch a single hadith by ID
+export const fetchHadithById = async (id: string): Promise<Hadith | null> => {
+  try {
+    const apiUrl = `https://hadeethenc.com/api/v1/hadeeths/one/?language=ar&id=${id}`;
+
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error("Failed to fetch hadith");
+    }
+
+    const hadeeth = await response.json();
+
+    return {
+      id: hadeeth.id,
+      title: hadeeth.title,
+      arabic: hadeeth.hadeeth,
+      translation: hadeeth.explanation || "",
+      narrator: hadeeth.attribution,
+      chapter: `Category ${hadeeth.categories?.[0] || "Unknown"}`,
+      book: hadeeth.reference?.split("\n")?.[0] || "Unknown Book",
+      grade: hadeeth.grade,
+      explanation: hadeeth.explanation,
+      hints: hadeeth.hints,
+      comments: [],
+    };
+  } catch (error) {
+    console.error("Error fetching hadith:", error);
+    return null;
+  }
 };
 
 export const fetchUserById = (id: string) => {
-  const user = users.find(u => u.id === id);
+  const user = users.find((u) => u.id === id);
   return Promise.resolve(user);
 };
 
 export const fetchUserProgress = (userId: string) => {
-  const progress = readingProgress.filter(p => p.userId === userId);
+  const progress = readingProgress.filter((p) => p.userId === userId);
   return Promise.resolve(progress);
 };
 
 export const fetchComments = (hadithId: string) => {
-  const hadith = hadiths.find(h => h.id === hadithId);
-  return Promise.resolve(hadith?.comments || []);
+  const hadithComments = comments.filter((c) => c.hadithId === hadithId);
+  return Promise.resolve(hadithComments);
 };
 
 // Mock authentication state

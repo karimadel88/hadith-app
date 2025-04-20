@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,10 +18,17 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      navigate("/home"); // Redirect to home if already logged in
+    }
+  }, [navigate]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const user = mockLogin(email, password);
-    
+
     if (user) {
       toast.success("تم تسجيل الدخول بنجاح");
       navigate("/home");
@@ -35,7 +41,9 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-right text-emerald-800" dir="rtl">تسجيل الدخول</CardTitle>
+          <CardTitle className="text-right text-emerald-800" dir="rtl">
+            تسجيل الدخول
+          </CardTitle>
           <CardDescription className="text-right" dir="rtl">
             أدخل بيانات حسابك للمتابعة
           </CardDescription>
@@ -43,7 +51,9 @@ const Login = () => {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="text-right block text-sm font-medium" dir="rtl">البريد الإلكتروني</label>
+              <label className="text-right block text-sm font-medium" dir="rtl">
+                البريد الإلكتروني
+              </label>
               <Input
                 type="email"
                 value={email}
@@ -55,7 +65,9 @@ const Login = () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-right block text-sm font-medium" dir="rtl">كلمة المرور</label>
+              <label className="text-right block text-sm font-medium" dir="rtl">
+                كلمة المرور
+              </label>
               <Input
                 type="password"
                 value={password}
@@ -66,7 +78,10 @@ const Login = () => {
                 required
               />
             </div>
-            <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">
+            <Button
+              type="submit"
+              className="w-full bg-emerald-600 hover:bg-emerald-700"
+            >
               <LogIn className="h-5 w-5 ml-2" />
               تسجيل الدخول
             </Button>
