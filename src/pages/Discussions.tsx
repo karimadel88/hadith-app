@@ -4,9 +4,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { hadiths } from "@/lib/data";
 import CommentSection from "@/components/CommentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Discussions = () => {
   const [activeTab, setActiveTab] = useState("popular");
+  const navigate = useNavigate();
 
   // Get hadiths with comments
   const hadithsWithComments = hadiths.filter(h => h.comments && h.comments.length > 0);
@@ -25,14 +29,24 @@ const Discussions = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-        <h1 className="text-4xl font-bold text-center text-emerald-800 mb-8">
-          Community Discussions
-        </h1>
+        <div className="flex justify-between items-center">
+          <Button 
+            variant="outline" 
+            onClick={() => navigate(-1)}
+            className="flex items-center space-x-2"
+          >
+            <ArrowLeft className="h-5 w-5 ml-2" />
+            <span>رجوع</span>
+          </Button>
+          <h1 className="text-4xl font-bold text-emerald-800" dir="rtl">
+            مناقشات المجتمع
+          </h1>
+        </div>
         
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full" dir="rtl">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-            <TabsTrigger value="popular">Most Discussed</TabsTrigger>
-            <TabsTrigger value="recent">Recent Comments</TabsTrigger>
+            <TabsTrigger value="popular">الأكثر نقاشاً</TabsTrigger>
+            <TabsTrigger value="recent">أحدث التعليقات</TabsTrigger>
           </TabsList>
           
           <TabsContent value="popular" className="mt-6">
@@ -45,7 +59,7 @@ const Discussions = () => {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <p className="text-right text-2xl leading-relaxed text-navy-900" dir="rtl">{hadith.arabic}</p>
-                    <p className="text-gray-600">{hadith.translation}</p>
+                    <p className="text-gray-600" dir="rtl">{hadith.translation}</p>
                     <CommentSection comments={hadith.comments || []} hadithId={hadith.id} />
                   </CardContent>
                 </Card>
@@ -59,14 +73,16 @@ const Discussions = () => {
                 <Card key={index} className="w-full">
                   <CardHeader>
                     <CardTitle className="text-emerald-800 text-lg">{comment.hadith.title}</CardTitle>
-                    <CardDescription className="text-sm">Comment from {new Date(comment.timestamp).toLocaleDateString()}</CardDescription>
+                    <CardDescription className="text-sm" dir="rtl">
+                      تعليق من {new Date(comment.timestamp).toLocaleDateString('ar-SA')}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="border-l-4 border-l-emerald-500 pl-4 py-2">
+                    <div className="border-r-4 border-r-emerald-500 pr-4 py-2" dir="rtl">
                       <p>{comment.text}</p>
                     </div>
-                    <p className="text-sm mt-4">
-                      <span className="font-semibold">From hadith:</span> "{comment.hadith.translation.substring(0, 100)}..."
+                    <p className="text-sm mt-4" dir="rtl">
+                      <span className="font-semibold">من حديث:</span> "{comment.hadith.translation.substring(0, 100)}..."
                     </p>
                   </CardContent>
                 </Card>

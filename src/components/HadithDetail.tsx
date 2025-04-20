@@ -34,23 +34,23 @@ const HadithDetail = ({ hadith }: HadithDetailProps) => {
             <CardTitle className="text-emerald-800 text-2xl">{hadith.title}</CardTitle>
             <div className="flex space-x-2">
               <Button variant="outline" size="sm">
-                <Bookmark className="h-4 w-4 mr-1" />
-                Save
+                <Bookmark className="h-4 w-4 ml-2" />
+                حفظ
               </Button>
               <Button variant="outline" size="sm">
-                <Share className="h-4 w-4 mr-1" />
-                Share
+                <Share className="h-4 w-4 ml-2" />
+                مشاركة
               </Button>
             </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="text-right text-3xl leading-relaxed text-navy-900" dir="rtl">{hadith.arabic}</p>
-          <p className="text-xl text-gray-700">{hadith.translation}</p>
-          <div className="flex justify-between text-gray-600 text-sm">
+          <p className="text-xl text-gray-700" dir="rtl">{hadith.translation}</p>
+          <div className="flex justify-between text-gray-600 text-sm" dir="rtl">
             <p>{hadith.narrator}</p>
             <p>
-              <span className="font-semibold">Source:</span> {hadith.book}, {hadith.chapter}
+              <span className="font-semibold">المصدر:</span> {hadith.book}، {hadith.chapter}
             </p>
           </div>
         </CardContent>
