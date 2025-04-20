@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,13 +10,26 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { UserPlus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { mockRegister } from "@/utils/mockAuth";
+import { toast } from "sonner";
 
 const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Will be implemented with actual registration later
-    console.log("Registration attempt");
+    const user = mockRegister(email, password, name);
+    
+    if (user) {
+      toast.success("تم إنشاء الحساب بنجاح");
+      navigate("/home");
+    } else {
+      toast.error("البريد الإلكتروني مستخدم بالفعل");
+    }
   };
 
   return (
@@ -33,27 +47,36 @@ const Register = () => {
               <label className="text-right block text-sm font-medium" dir="rtl">الاسم</label>
               <Input
                 type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="الاسم الكامل"
                 className="text-right"
                 dir="rtl"
+                required
               />
             </div>
             <div className="space-y-2">
               <label className="text-right block text-sm font-medium" dir="rtl">البريد الإلكتروني</label>
               <Input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@domain.com"
                 className="text-right"
                 dir="rtl"
+                required
               />
             </div>
             <div className="space-y-2">
               <label className="text-right block text-sm font-medium" dir="rtl">كلمة المرور</label>
               <Input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="text-right"
                 dir="rtl"
+                required
               />
             </div>
             <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">

@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,13 +10,25 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { LogIn } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { mockLogin } from "@/utils/mockAuth";
+import { toast } from "sonner";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Will be implemented with actual authentication later
-    console.log("Login attempt");
+    const user = mockLogin(email, password);
+    
+    if (user) {
+      toast.success("تم تسجيل الدخول بنجاح");
+      navigate("/home");
+    } else {
+      toast.error("البريد الإلكتروني أو كلمة المرور غير صحيحة");
+    }
   };
 
   return (
@@ -33,18 +46,24 @@ const Login = () => {
               <label className="text-right block text-sm font-medium" dir="rtl">البريد الإلكتروني</label>
               <Input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@domain.com"
                 className="text-right"
                 dir="rtl"
+                required
               />
             </div>
             <div className="space-y-2">
               <label className="text-right block text-sm font-medium" dir="rtl">كلمة المرور</label>
               <Input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="text-right"
                 dir="rtl"
+                required
               />
             </div>
             <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">
